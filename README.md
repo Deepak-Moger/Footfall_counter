@@ -1,5 +1,4 @@
-🧠 AI Assignment: Footfall Counter using
-Computer Vision
+🧠 Footfall Counter using Computer Vision
 
 A real-time computer vision system that detects, tracks, and counts people crossing a virtual line in video streams or live webcam feed.
 
