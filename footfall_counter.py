@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -14,6 +15,8 @@ ROOT = Path(__file__).resolve().parent
 
 
 def run_dashboard(host: str, port: int) -> int:
+    env_port = os.getenv("PORT")
+    resolved_port = int(env_port) if env_port else port
     command = [
         sys.executable,
         "-m",
@@ -22,8 +25,7 @@ def run_dashboard(host: str, port: int) -> int:
         "--host",
         host,
         "--port",
-        str(port),
-        "--reload",
+        str(resolved_port),
     ]
     return subprocess.call(command, cwd=ROOT)
 
@@ -79,7 +81,7 @@ def main() -> int:
     args = parser.parse_args()
 
     if args.command == "dashboard" or args.command is None:
-        host = getattr(args, "host", "127.0.0.1")
+        host = os.getenv("HOST", getattr(args, "host", "127.0.0.1"))
         port = getattr(args, "port", 8000)
         return run_dashboard(host, port)
 
@@ -92,4 +94,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

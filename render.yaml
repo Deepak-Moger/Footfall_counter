@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: footfall-counter
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python footfall_counter.py dashboard --host 0.0.0.0
