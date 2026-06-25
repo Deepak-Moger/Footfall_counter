@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+
+.venv/
+venv/
+
+server.out.log
+server.err.log
+*.log
+
+artifacts/
+footfall_output.mp4
+
+.env
+.env.*

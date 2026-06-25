@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FlowLens AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/styles.css" />
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+    <script src="/static/app.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Primary navigation">
+        <a class="brand" href="/" aria-label="FlowLens AI home">
+          <span class="brand-mark">FL</span>
+          <span>
+            <strong>FlowLens</strong>
+            <small>AI Footfall Intelligence</small>
+          </span>
+        </a>
+
+        <nav class="nav-list">
+          <button class="nav-item active" type="button" title="Live">
+            <i data-lucide="scan-line"></i>
+            <span>Live</span>
+          </button>
+          <button class="nav-item" type="button" title="Insights">
+            <i data-lucide="sparkles"></i>
+            <span>Insights</span>
+          </button>
+          <button class="nav-item" type="button" title="Heatmaps">
+            <i data-lucide="radar"></i>
+            <span>Heatmaps</span>
+          </button>
+          <button class="nav-item" type="button" title="Forecast">
+            <i data-lucide="trending-up"></i>
+            <span>Forecast</span>
+          </button>
+          <button class="nav-item" type="button" title="Cameras">
+            <i data-lucide="cctv"></i>
+            <span>Cameras</span>
+          </button>
+        </nav>
+
+        <div class="privacy-chip">
+          <i data-lucide="shield-check"></i>
+          <span>Privacy-first edge analytics</span>
+        </div>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Spatial Intelligence Dashboard</p>
+            <h1>Real-time footfall, occupancy, and flow intelligence.</h1>
+          </div>
+
+          <div class="controls" aria-label="Stream controls">
+            <label class="source-select" for="sourceSelect">
+              <span>Source</span>
+              <select id="sourceSelect">
+                <option value="sample">Sample video</option>
+                <option value="webcam">Webcam</option>
+              </select>
+            </label>
+            <button class="icon-button primary" id="startBtn" type="button" title="Start stream">
+              <i data-lucide="play"></i>
+              <span>Start</span>
+            </button>
+            <button class="icon-button" id="stopBtn" type="button" title="Stop stream">
+              <i data-lucide="square"></i>
+            </button>
+            <button class="icon-button" id="resetBtn" type="button" title="Reset counters">
+              <i data-lucide="rotate-ccw"></i>
+            </button>
+          </div>
+        </header>
+
+        <section class="dashboard-grid" aria-label="FlowLens dashboard">
+          <section class="panel hero-panel">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">Live Vision Layer</p>
+                <h2 id="sourceName">Synthetic showroom</h2>
+              </div>
+              <div class="status-pill" id="streamStatus">
+                <span class="status-dot"></span>
+                Demo
+              </div>
+            </div>
+
+            <div class="video-frame">
+              <img id="videoFeed" src="/video" alt="Annotated footfall camera stream" />
+              <canvas id="heatCanvas" aria-label="Live movement heatmap"></canvas>
+              <div class="video-hud">
+                <span>Line confidence <strong id="confidenceValue">91%</strong></span>
+                <span>Tracking <strong id="trackingValue">0</strong></span>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel metric-panel occupancy-panel">
+            <div class="metric-label">
+              <i data-lucide="users-round"></i>
+              <span>Current Occupancy</span>
+            </div>
+            <strong class="metric-value" id="occupancyValue">0</strong>
+            <div class="metric-subline">
+              <span>Peak <strong id="peakValue">0</strong></span>
+              <span id="occupancyTrend">Stable</span>
+            </div>
+          </section>
+
+          <section class="panel metric-panel entry-panel">
+            <div class="metric-label">
+              <i data-lucide="log-in"></i>
+              <span>Entries</span>
+            </div>
+            <strong class="metric-value" id="entriesValue">0</strong>
+            <div class="metric-subline">
+              <span>Conversion <strong id="conversionValue">0%</strong></span>
+            </div>
+          </section>
+
+          <section class="panel metric-panel exit-panel">
+            <div class="metric-label">
+              <i data-lucide="log-out"></i>
+              <span>Exits</span>
+            </div>
+            <strong class="metric-value" id="exitsValue">0</strong>
+            <div class="metric-subline">
+              <span>Avg dwell <strong id="dwellValue">0s</strong></span>
+            </div>
+          </section>
+
+          <section class="panel forecast-panel">
+            <div class="panel-head compact">
+              <div>
+                <p class="eyebrow">Predictive Operations</p>
+                <h2>Next-hour forecast</h2>
+              </div>
+              <i data-lucide="activity"></i>
+            </div>
+            <div class="forecast-bars" id="forecastBars"></div>
+          </section>
+
+          <section class="panel recommendations-panel">
+            <div class="panel-head compact">
+              <div>
+                <p class="eyebrow">AI Copilot</p>
+                <h2>Recommended actions</h2>
+              </div>
+              <i data-lucide="brain-circuit"></i>
+            </div>
+            <div class="recommendation-list" id="recommendationList"></div>
+          </section>
+
+          <section class="panel zones-panel">
+            <div class="panel-head compact">
+              <div>
+                <p class="eyebrow">Digital Twin</p>
+                <h2>Zone pressure</h2>
+              </div>
+              <i data-lucide="layout-dashboard"></i>
+            </div>
+            <div class="zone-list" id="zoneList"></div>
+          </section>
+
+          <section class="panel events-panel">
+            <div class="panel-head compact">
+              <div>
+                <p class="eyebrow">Event Stream</p>
+                <h2>Latest crossings</h2>
+              </div>
+              <i data-lucide="list-filter"></i>
+            </div>
+            <div class="event-list" id="eventList"></div>
+          </section>
+
+          <section class="panel alerts-panel">
+            <div class="panel-head compact">
+              <div>
+                <p class="eyebrow">System Health</p>
+                <h2>Alerts</h2>
+              </div>
+              <i data-lucide="circle-alert"></i>
+            </div>
+            <div class="alert-list" id="alertList"></div>
+          </section>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
