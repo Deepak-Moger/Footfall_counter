@@ -3,5 +3,10 @@ services:
     name: footfall-counter
     runtime: python
     plan: free
-    buildCommand: pip install -r requirements.txt
-    startCommand: python footfall_counter.py dashboard --host 0.0.0.0
+    buildCommand: pip install -r requirements-render.txt && pip uninstall -y opencv-python && pip install "opencv-python-headless>=4.8.0"
+    startCommand: uvicorn app:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.6
+      - key: MPLBACKEND
+        value: Agg

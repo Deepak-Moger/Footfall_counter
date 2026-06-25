@@ -15,11 +15,13 @@ import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Deque, Dict, Iterable, List, Optional, Tuple
+from typing import TYPE_CHECKING, Deque, Dict, Iterable, List, Optional, Tuple
 
 import cv2
 import numpy as np
-from ultralytics import YOLO
+
+if TYPE_CHECKING:
+    from ultralytics import YOLO
 
 
 Point = Tuple[int, int]
@@ -208,6 +210,8 @@ class FlowLensEngine:
 
     def load_model(self) -> None:
         if self.model is None:
+            from ultralytics import YOLO
+
             self.model = YOLO(self.model_path)
 
     def reset(self) -> None:
@@ -830,4 +834,3 @@ def snapshot_to_dict(snapshot: AnalyticsSnapshot) -> Dict[str, object]:
 
 def _clamp(value: float, low: float = 0.0, high: float = 1.0) -> float:
     return min(max(value, low), high)
-

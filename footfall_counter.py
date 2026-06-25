@@ -12,6 +12,7 @@ from core.analytics import FlowLensEngine
 
 
 ROOT = Path(__file__).resolve().parent
+COMMANDS = {"dashboard", "video"}
 
 
 def run_dashboard(host: str, port: int) -> int:
@@ -76,9 +77,17 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
+def normalize_argv(argv: list[str]) -> list[str]:
+    """Keep the original flag-only video CLI working after adding subcommands."""
+
+    if argv and argv[0] not in {"-h", "--help"} and argv[0] not in COMMANDS and argv[0].startswith("-"):
+        return ["video", *argv]
+    return argv
+
+
 def main() -> int:
     parser = build_parser()
-    args = parser.parse_args()
+    args = parser.parse_args(normalize_argv(sys.argv[1:]))
 
     if args.command == "dashboard" or args.command is None:
         host = os.getenv("HOST", getattr(args, "host", "127.0.0.1"))
